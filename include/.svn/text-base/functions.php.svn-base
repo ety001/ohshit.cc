@@ -1,7 +1,0 @@
-<?php
-//时间函数，受到系统设置的时区影响
-function getmytime(){
-	$config = spClass('m_sys_config')->readConfig();
-	date_default_timezone_set($config['timezone']);
-	return time();
-}
