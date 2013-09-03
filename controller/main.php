@@ -19,6 +19,8 @@ class main extends spController
         }
         $postsObj = spClass('libPosts');
         $this->post = $postsObj->find($conditions);
+        $commentsObj = spClass('libComments');
+        $this->allComments = $commentsObj->findAll(array('post_id'=>$id),'order by time desc');
         $this->display('l.html');
     }
 
