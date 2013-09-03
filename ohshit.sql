@@ -23,24 +23,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `comments`
+-- 表的结构 `ohshit_comments`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
+CREATE TABLE IF NOT EXISTS `ohshit_comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `content` mediumtext NOT NULL,
   `time` varchar(12) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-ALTER TABLE  `comments` ADD  `uid` INT NOT NULL AFTER  `id`;
+ALTER TABLE  `ohshit_comments` ADD  `uid` INT NOT NULL AFTER  `id`;
 -- --------------------------------------------------------
 
 --
--- 表的结构 `posts`
+-- 表的结构 `ohshit_posts`
 --
 
-CREATE TABLE IF NOT EXISTS `posts` (
+CREATE TABLE IF NOT EXISTS `ohshit_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
