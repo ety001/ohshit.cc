@@ -77,7 +77,8 @@
             <div class="media-body">
               <h4 class="media-heading">
                 <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
-              </h4> 发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?>
+              </h4>
+              <span class="label label-info">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?></span>
             </div>
           </div>
         <?php 
@@ -98,6 +99,6 @@
 
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap.min.js"></script>
-
+    <?php include 'tongji.html';?>
   </body>
 </html>

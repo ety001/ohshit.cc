@@ -34,6 +34,8 @@ class main extends spController
         unset($info['a']);
         $info['time'] = time();
         $info['uid'] = 0;
+        $info['title'] = strip_tags($info['title']);
+        $info['content'] = strip_tags($info['content']);
         $postsObj = spClass('libPosts');
         $verifier = $postsObj->spVerifier($info);
         if( false == $verifier){
@@ -52,7 +54,9 @@ class main extends spController
         $info = $this->spArgs();
         unset($info['c']);
         unset($info['a']);
+        $info['uid'] = 0;
         $info['time'] = time();
+        $info['content'] = strip_tags($info['content']);
         $commentsObj = spClass('libComments');
         $verifier = $commentsObj->spVerifier($info);
         if( false == $verifier){

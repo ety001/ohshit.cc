@@ -71,8 +71,24 @@
 
       <div class="container">
         <h3 class="span6"><?php echo $post['title'];?></h3>
-        <div class="span6"><?php echo ($post['content']);?></div>
+        <div class="span6"><?php echo $post['content'];?></div>
       </div>
+
+      <hr>
+      <form action="<?php echo spUrl('main','saveComment');?>" method="post">
+      <input type="hidden" name="post_id" value="<?php echo $post['id'];?>">
+      <div class="container">
+        <div class="control-group">
+          <label>我来啰嗦几句</label>
+          <div>
+            <textarea id="content" name="content"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <button type="submit" class="btn btn-success">就先这么多</button>
+        </div>
+      </div>
+      </form>
 
       <hr>
 
@@ -85,7 +101,7 @@
               <div class="media-heading">
                 <?php echo $v['content'];?>
               </div>
-              <span class="label label-info">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?> &nbsp;&nbsp;&nbsp;<?php echo $k;?>楼</span>
+              <span class="label label-warn"><?php echo $k+1;?>楼</span>&nbsp;<span class="label label-info">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?></span>
             </div>
           </div>
         <?php 
@@ -106,6 +122,23 @@
 
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="/public/kindeditor/kindeditor-min.js"></script>
+    <script type="text/javascript" src="/public/kindeditor/lang/zh_CN.js"></script>
+    <script>
+      var editor;
+      KindEditor.ready(function(K) {
+        editor = K.create('#content', {
+          height: '150px',
+          resizeType : 1,
+          allowPreviewEmoticons : false,
+          allowImageUpload : false,
+          items : [
+            'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+            'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+      });
+    </script>
+    <?php include 'tongji.html';?>
   </body>
 </html>
