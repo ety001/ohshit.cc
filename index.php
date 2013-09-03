@@ -3,6 +3,7 @@ define("APP_PATH",dirname(__FILE__));
 define("SP_PATH",dirname(__FILE__).'/SpeedPHP');
 $spConfig = array(
     'db' => array( // 数据库设置
+        'driver' => 'mysqli',
         'host' => $_SERVER['OHSHIT_HOST'],  // 数据库地址
         'login' => $_SERVER['OHSHIT_USER'], // 数据库用户名
         'password' => $_SERVER['OHSHIT_PASS'], // 数据库密码
