@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Anonymous Discussions</title>
+    <title><?php echo $post['title'];?> -- Anonymous Discussions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -70,20 +70,28 @@
       <hr>
 
       <div class="container">
+        <h3 class="span6"><?php echo $post['title'];?></h3>
+        <div class="span6"><?php echo ($post['content']);?></div>
+      </div>
+
+      <hr>
+
+      <div class="container">
         <?php 
-        if($allPosts){
-          foreach($allPosts as $k => $v){?>
+        if($allComments){
+          foreach($allComments as $k => $v){?>
           <div class="media">
             <div class="media-body">
-              <h4 class="media-heading">
-                <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
-              </h4> 发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?>
+              <div class="media-heading">
+                <?php echo $v['content'];?>
+              </div>
+              <span class="label label-info">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?> &nbsp;&nbsp;&nbsp;<?php echo $k;?>楼</span>
             </div>
           </div>
         <?php 
           }
         } else {
-          echo 'No OS Now!';
+          echo '暂无评论!';
         }
         ?>
       </div>
