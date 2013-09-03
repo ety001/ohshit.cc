@@ -20,7 +20,7 @@ class main extends spController
         $postsObj = spClass('libPosts');
         $this->post = $postsObj->find($conditions);
         $commentsObj = spClass('libComments');
-        $this->allComments = $commentsObj->findAll(array('post_id'=>$id),'time desc');
+        $this->allComments = $commentsObj->findAll(array('post_id'=>$id),'time asc');
         $this->display('l.html');
     }
 
