@@ -9,6 +9,19 @@ class main extends spController
         $this->display('index.html');
 	}
 
+    function l(){
+        $id = (int)$this->spArgs('id');
+        if($id){
+            $conditions['id'] = $id;
+        } else {
+            $this->error('错误的文章id',spUrl('main','index'));
+            return;
+        }
+        $postsObj = spClass('libPosts');
+        $this->post = $postsObj->find($conditions);
+        $this->display('l.html');
+    }
+
     function addPost(){
         $this->display('addPost.html');
     }
