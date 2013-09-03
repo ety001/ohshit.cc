@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `time` varchar(12) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
+ALTER TABLE  `comments` ADD  `uid` INT NOT NULL AFTER  `id`;
 -- --------------------------------------------------------
 
 --
