@@ -42,8 +42,8 @@
               <h4 class="media-heading" style="width:500px;">
                 <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
               </h4>
-              <span class="label label-warning">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?></span>
-              <span class="label label-success">点击数：<?php echo $v['hits'];?></span>
+              <span class="label label-warning">发布于 <?php echo time_ago($v['time']);?></span>
+              <span class="label label-success">点击 <?php echo $v['hits'];?> 次</span>
             </div>
           </div>
         <?php 

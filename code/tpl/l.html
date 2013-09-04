@@ -34,7 +34,7 @@
       <hr>
 
       <div class="container">
-        <h3 class="span6"><?php echo $post['title'];?>&nbsp;&nbsp;&nbsp;<div class="text-center label label-info" style="margin:0;paddding:5px 0;">发布时间：<?php echo date('Y-m-d H:i:s',$post['time']);?></div></h3>
+        <h3 class="span6"><?php echo $post['title'];?>&nbsp;&nbsp;&nbsp;<div class="text-center label label-info" style="margin:0;paddding:5px 0;">发布时间：<?php echo time_ago($post['time']);?></div></h3>
         <div class="span1 text-center label" style="padding:10px 0;"><?php echo $post['hits'];?><br />点击</div>
 
         <div class="span6"><?php echo $post['content'];?></div>
@@ -75,7 +75,7 @@
               <div class="media-heading">
                 <?php echo $v['content'];?>
               </div>
-              <span class="label label-warn"><?php echo $k+1;?>楼</span>&nbsp;<span class="label label-info">发布时间：<?php echo date('Y-m-d H:i:s',$v['time']);?></span>
+              <span class="label label-warn"><?php echo $k+1;?>楼</span>&nbsp;<span class="label label-info">发布时间：<?php echo time_ago($v['time']);?></span>
             </div>
           </div>
         <?php 
