@@ -2,10 +2,12 @@
 class main extends spController
 {
 	function index(){
+        $p = (int)$this->spArgs('p',1);
 		$postsObj = spClass('libPosts');
-        $allPosts = $postsObj->spLinker()->findAll(false,'time desc');
-
+        $allPosts = $postsObj->spLinker()->spPager($p, 10)->findAll(false,'time desc');
+        $pageInfo = $postsObj->spPager()->getPager();
         $this->allPosts = $allPosts;
+        $this->pageInfo = $pageInfo;
         $this->display('index.html');
 	}
 

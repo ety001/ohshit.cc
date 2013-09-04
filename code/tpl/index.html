@@ -54,6 +54,23 @@
         ?>
       </div>
 
+      <?php if($pageInfo){?>
+      <div class="container">
+        <ul class="pager">
+          <?php if($pageInfo['current_page'] != $pageInfo['first_page']){?>
+          <li class="previous">
+            <a href="<?php echo spUrl('main','index',array('p'=>$pageInfo['prev_page']));?>">&larr; 上一页</a>
+          </li>
+          <?php }?>
+          <?php if($pageInfo['current_page'] != $pageInfo['last_page']){?>
+          <li class="next">
+            <a href="<?php echo spUrl('main','index',array('p'=>$pageInfo['next_page']));?>">下一页 &rarr;</a>
+          </li>
+          <?php }?>
+        </ul>
+      </div>
+      <?php }?>
+
       <hr>
 
       <div class="footer">
