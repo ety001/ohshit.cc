@@ -18,7 +18,13 @@ class main extends spController
             return;
         }
         $postsObj = spClass('libPosts');
-        $this->post = $postsObj->find($conditions);
+        $post = $postsObj->find($conditions);
+        if(!$post){
+            $this->error('错误的文章id',spUrl('main','index'));
+            return;
+        }
+        $postsObj->updateField($conditions,'hits',$post['hits']+1);
+        $this->post = $post;
         $commentsObj = spClass('libComments');
         $this->allComments = $commentsObj->findAll(array('post_id'=>$id),'time asc');
         $this->display('l.html');
