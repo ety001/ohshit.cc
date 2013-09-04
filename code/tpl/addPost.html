@@ -79,7 +79,8 @@
                 <li>Just for relax 是这个站的宗旨，因此还是要再强调不要尝试违反第一条；</li>
                 <li>注意文明用语，大家都是文明人哈；</li>
                 <li>如果你想入侵，也别想了，我个人感觉没啥利用价值；</li>
-                <li>违反情况的一律删删删！</li>
+                <li>其实发广告也是在一定程度被允许的，只不过我们希望每十个帖子就看到超过两条广告贴；</li>
+                <li>违反以上情况的一律删删删！</li>
               </ol>
             </div>
             <div class="control-group">
@@ -128,6 +129,10 @@
         });
       });
     </script>
-    <?php include 'tongji.html';?>
+    <?php
+    global $spConfig;
+    if($spConfig['mode']=='release'){ 
+      include 'tongji.html';
+    }?>
   </body>
 </html>

@@ -146,6 +146,10 @@
         });
       });
     </script>
-    <?php include 'tongji.html';?>
+    <?php
+    global $spConfig;
+    if($spConfig['mode']=='release'){ 
+      include 'tongji.html';
+    }?>
   </body>
 </html>
