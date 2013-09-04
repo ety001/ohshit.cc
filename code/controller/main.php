@@ -13,6 +13,7 @@ class main extends spController
 
     function l(){
         $id = (int)$this->spArgs('id');
+        $p = (int)$this->spArgs('p',1);
         if($id){
             $conditions['id'] = $id;
         } else {
@@ -28,7 +29,8 @@ class main extends spController
         $postsObj->updateField($conditions,'hits',$post['hits']+1);
         $this->post = $post;
         $commentsObj = spClass('libComments');
-        $this->allComments = $commentsObj->findAll(array('post_id'=>$id),'time asc');
+        $this->allComments = $commentsObj->spPager($p, 50)->findAll(array('post_id'=>$id),'time asc');
+        $this->cpager = $commentsObj->spPager()->getPager();
         $this->display('l.html');
     }
 

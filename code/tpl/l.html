@@ -74,7 +74,10 @@
               <div class="media-heading">
                 <?php echo $v['content'];?>
               </div>
-              <span class="label label-warn"><?php echo $k+1;?>楼</span>&nbsp;<span class="label label-info">发布时间：<?php echo time_ago($v['time']);?></span>
+              <?php
+              $stageNum = ($cpager['current_page']-1) * $cpager['page_size'] + ($k + 1);
+              ?>
+              <span class="label label-warn"><?php echo $stageNum;?>楼</span>&nbsp;<span class="label label-info">发布时间：<?php echo time_ago($v['time']);?></span>
             </div>
           </div>
         <?php 
@@ -84,6 +87,18 @@
         }
         ?>
       </div>
+
+      <?php if($cpager){?>
+      <div class="container">
+        <div class="pagination pagination-mini">
+          <ul>
+            <?php foreach($cpager['all_pages'] as $k => $v){?>
+            <li <?php echo ($cpager['current_page'] == $v)?' class="active" ':'';?>><a href="<?php echo spUrl('main','l',array('id'=>$post['id'],'p'=>$v));?>"><?php echo $v;?></a></li>
+            <?php }?>
+          </ul>
+        </div>
+      </div>
+      <?php }?>
 
       <hr>
 
