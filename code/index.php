@@ -17,6 +17,32 @@ $spConfig = array(
         ),
         'engine_name' => 'speedy', // 模板引擎的类名称
         'engine_path' => SP_PATH.'/Drivers/speedy.php', // 模板引擎主类路径
+    ),
+    'launch' => array( // 加入挂靠点，以便开始使用Url_ReWrite的功能
+        'router_prefilter' => array( 
+            array('spUrlRewrite', 'setReWrite'),  // 对路由进行挂靠，处理转向地址
+        ),
+         'function_url' => array(
+            array("spUrlRewrite", "getReWrite"),  // 对spUrl进行挂靠，让spUrl可以进行Url_ReWrite地址的生成
+        ),
+    ),
+    'ext' => array(
+        'spUrlRewrite' => array(
+            'suffix' => '', 
+            'sep' => '/', 
+            'map' => array( 
+                'list' => 'main@l',
+                'savePost' => 'main@savePost',
+                'addPost' => 'main@addPost',
+                'saveComment' => 'main@saveComment',
+                'os' => 'main@index',
+                '@' => 'main@index'         
+            ),
+            'args' => array(
+                'list' => array('id','p'),
+                'os' => array('p')
+            )
+        )
     )
 );
 require(SP_PATH."/SpeedPHP.php");
