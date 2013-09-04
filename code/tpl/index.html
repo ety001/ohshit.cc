@@ -37,7 +37,7 @@
         <?php 
         if($allPosts){
           foreach($allPosts as $k => $v){?>
-          <div class="media">
+          <div class="media alert alert-info">
             <div class="media-body">
               <h4 class="media-heading" style="width:500px;">
                 <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>

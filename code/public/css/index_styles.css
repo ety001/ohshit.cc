@@ -37,3 +37,7 @@ body {
 .container {
   width:700px;
 }
+
+.media {
+  padding-bottom: 10px;
+}
