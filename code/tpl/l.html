@@ -70,13 +70,16 @@
       <hr>
 
       <div class="container">
-        <h3 class="span6"><?php echo $post['title'];?></h3>
+        <h3 class="span6"><?php echo $post['title'];?>&nbsp;&nbsp;&nbsp;<div class="text-center label label-info" style="margin:0;paddding:5px 0;">发布时间：<?php echo date('Y-m-d H:i:s',$post['time']);?></div></h3>
+        <div class="span1 text-center label" style="padding:10px 0;"><?php echo $post['hits'];?><br />点击</div>
+
         <div class="span6"><?php echo $post['content'];?></div>
       </div>
 
       <hr>
 
       <div class="container">
+        <label>快去告诉你的小伙伴们</label>
         <?php include 'share.html';?>
       </div>
 
