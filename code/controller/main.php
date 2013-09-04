@@ -34,6 +34,7 @@ class main extends spController
         unset($info['a']);
         $info['time'] = time();
         $info['uid'] = 0;
+        $info['hits'] = 0;
         $info['title'] = strip_illegal_tags($info['title']);
         $info['content'] = strip_illegal_tags($info['content']);
         $postsObj = spClass('libPosts');
