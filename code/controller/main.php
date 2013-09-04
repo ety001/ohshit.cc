@@ -3,7 +3,7 @@ class main extends spController
 {
 	function index(){
 		$postsObj = spClass('libPosts');
-        $allPosts = $postsObj->findAll(false,'time desc');
+        $allPosts = $postsObj->spLinker()->findAll(false,'time desc');
 
         $this->allPosts = $allPosts;
         $this->display('index.html');

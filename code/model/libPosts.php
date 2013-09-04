@@ -3,6 +3,16 @@ class libPosts extends spModel
 {
     var $pk = "id"; // 数据表的主键
     var $table = "posts"; // 数据表的名称
+    var $linker = array(
+                    array(
+                        'type' => 'hasmany',   // 一对多关联
+                        'map' => 'comments',    // 关联的标识
+                        'mapkey' => 'id', 
+                        'fclass' => 'libComments',
+                        'fkey' => 'post_id',
+                        'enabled' => true
+                    )
+                );
     var $verifier = array(
                         "rules" => array( // 规则
                             'title' => array(
