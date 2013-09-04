@@ -68,7 +68,7 @@ class main extends spController
         $verifier = $commentsObj->spVerifier($info);
         if( false == $verifier){
             if($commentsObj->create($info)){
-                $this->success('发布成功');
+                $this->success('发布成功',spUrl('main','l',array('id'=>$info['post_id'])));
             } else {
                 $this->error('发布失败');
             }
