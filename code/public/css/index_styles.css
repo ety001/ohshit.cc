@@ -41,3 +41,11 @@ body {
 .media {
   padding-bottom: 10px;
 }
+
+#scrollUp {
+  bottom: 20px;
+  right: 20px;
+  height: 38px;  /* Height of image */
+  width: 38px; /* Width of image */
+  background: url("/public/img/top.png") no-repeat;
+}
