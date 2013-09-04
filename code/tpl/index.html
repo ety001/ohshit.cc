@@ -39,7 +39,7 @@
           foreach($allPosts as $k => $v){?>
           <div class="media alert alert-info">
             <div class="media-body">
-              <h4 class="media-heading" style="width:500px;">
+              <h4 class="media-heading">
                 <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
               </h4>
               <span class="label label-warning">发布于 <?php echo time_ago($v['time']);?></span>
