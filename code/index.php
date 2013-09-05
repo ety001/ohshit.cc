@@ -2,6 +2,7 @@
 define("APP_PATH",dirname(__FILE__));
 define("SP_PATH",dirname(__FILE__).'/SpeedPHP');
 $spConfig = array(
+    'mode' => 'debug',
     'db' => array( // 数据库设置
         'driver' => 'mysqli',
         'host' => $_SERVER['OHSHIT_HOST'],  // 数据库地址
@@ -31,7 +32,7 @@ $spConfig = array(
             'suffix' => '', 
             'sep' => '/', 
             'map' => array( 
-                'list' => 'main@l',
+                'l' => 'main@l',
                 'savePost' => 'main@savePost',
                 'addPost' => 'main@addPost',
                 'saveComment' => 'main@saveComment',
@@ -39,7 +40,7 @@ $spConfig = array(
                 '@' => 'main@index'         
             ),
             'args' => array(
-                'list' => array('id','p'),
+                'l' => array('id','p'),
                 'os' => array('p')
             )
         )
