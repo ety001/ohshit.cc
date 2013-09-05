@@ -31,4 +31,14 @@ class libPosts extends spModel
                             )
                         )
                     );
+    public function updateTime($postID=''){
+        if(!$postID)return;
+        $conditions['id'] = $postID;
+        $now = time();
+        if($this->updateField($conditions,'update_time',$now)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

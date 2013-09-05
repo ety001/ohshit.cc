@@ -4,7 +4,7 @@ class main extends spController
 	function index(){
         $p = (int)$this->spArgs('p',1);
 		$postsObj = spClass('libPosts');
-        $allPosts = $postsObj->spLinker()->spPager($p, 10)->findAll(false,'time desc');
+        $allPosts = $postsObj->spLinker()->spPager($p, 10)->findAll(false,'`update_time` desc, `time` desc');
         $pageInfo = $postsObj->spPager()->getPager();
         $this->allPosts = $allPosts;
         $this->pageInfo = $pageInfo;
@@ -69,9 +69,11 @@ class main extends spController
         $info['time'] = time();
         $info['content'] = strip_illegal_tags($info['content']);
         $commentsObj = spClass('libComments');
+        $postsObj = spClass('libPosts');
         $verifier = $commentsObj->spVerifier($info);
         if( false == $verifier){
             if($commentsObj->create($info)){
+                $postsObj->updateTime($info['post_id']);
                 $this->success('发布成功',spUrl('main','l',array('id'=>$info['post_id'])));
             } else {
                 $this->error('发布失败');

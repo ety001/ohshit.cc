@@ -38,12 +38,13 @@
           foreach($allPosts as $k => $v){?>
           <div class="media alert alert-info">
             <div class="media-body">
-              <h4 class="media-heading">
+              <h3 class="media-heading">
                 <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
-              </h4>
-              <span class="label label-warning">发布于 <?php echo time_ago($v['time']);?></span>
-              <span class="label label-success">点击 <?php echo $v['hits'];?> 次</span>
-              <span class="label">评论了 <?php echo count($v['comments']);?> 条</span>
+              </h3>
+              <span class="label label-success">发布于 <?php echo time_ago($v['time']);?></span>
+              <span class="label label-warning">点击 <?php echo $v['hits'];?> 次</span>
+              <span class="label label-important">评论了 <?php echo count($v['comments']);?> 条</span>
+              <?php if($v['update_time']){?><span class="label label-info">最后评论于 <?php echo time_ago($v['update_time']);?></span><?php }?>
             </div>
           </div>
         <?php 
