@@ -85,4 +85,15 @@ class main extends spController
         }
 
     }
+
+    function TTT(){
+        $postsObj = spClass('libPosts');
+        $allPosts = $postsObj->spLinker()->findAll();
+        foreach ($allPosts as $key => $value) {
+            $t = array_pop($value['comments']);
+            if($t){
+                $postsObj->updateField(array('id'=>$t['post_id']),'update_time',$t['time']);
+            }
+        }
+    }
 }
