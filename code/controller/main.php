@@ -45,7 +45,7 @@ class main extends spController
         $info['time'] = time();
         $info['update_time'] = time();
         $info['uid'] = 0;
-        $info['hits'] = 0;
+        $info['hits'] = 1;
         $info['title'] = strip_illegal_tags($info['title']);
         $info['content'] = strip_illegal_tags($info['content']);
         $postsObj = spClass('libPosts');
@@ -82,18 +82,6 @@ class main extends spController
         } else {
             $msg = array_pop($verifier);
             $this->error(array_pop($msg));
-        }
-
-    }
-
-    function TTT(){
-        $postsObj = spClass('libPosts');
-        $allPosts = $postsObj->spLinker()->findAll();
-        foreach ($allPosts as $key => $value) {
-            $t = array_pop($value['comments']);
-            if($t){
-                $postsObj->updateField(array('id'=>$t['post_id']),'update_time',$t['time']);
-            }
         }
     }
 }
