@@ -43,6 +43,7 @@ class main extends spController
         unset($info['c']);
         unset($info['a']);
         $info['time'] = time();
+        $info['update_time'] = time();
         $info['uid'] = 0;
         $info['hits'] = 0;
         $info['title'] = strip_illegal_tags($info['title']);
