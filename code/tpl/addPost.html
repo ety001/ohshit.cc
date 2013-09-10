@@ -76,6 +76,7 @@
 
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap.min.js"></script>
+    <?php if(get_device_type()){?>
     <script type="text/javascript" src="/public/kindeditor/kindeditor-min.js"></script>
     <script type="text/javascript" src="/public/kindeditor/lang/zh_CN.js"></script>
     <script>
@@ -93,6 +94,7 @@
         });
       });
     </script>
+    <?php }?>
     <?php
     global $spConfig;
     if($spConfig['mode']=='release'){ 

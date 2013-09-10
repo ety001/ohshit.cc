@@ -113,10 +113,13 @@
 
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap.min.js"></script>
+    <?php if(get_device_type()){?>
     <script type="text/javascript" src="/public/kindeditor/kindeditor-min.js"></script>
     <script type="text/javascript" src="/public/kindeditor/lang/zh_CN.js"></script>
+    <?php }?>
     <script src="/public/js/jquery.scrollUp.min.js"></script>
     <script>
+    <?php if(get_device_type()){?>
       var editor;
       KindEditor.ready(function(K) {
         editor = K.create('#content', {
@@ -130,6 +133,7 @@
             'insertunorderedlist', '|', 'emoticons', 'link']
         });
       });
+    <?php }?>
       $(function(){
         $.scrollUp({
           scrollName: 'scrollUp', // Element ID
