@@ -25,25 +25,28 @@ class wx extends spController
 
     private function textType($msg,$wx){
         //获取缓存信息
-        $cache = spAccess('r',$msg['FromUserName']);
-        $mediaContent = '';
+        $memInfo = spAccess('r',$msg['FromUserName']);
+        $mem = '';
         //如果有缓存信息，则先处理缓存的信息
-        if($cache){
+        if($memInfo){
             spAccess('c', $msg['FromUserName']);
             //如果缓存信息是数组那就是图片信息
-            if(is_array($cache)&&$cache[0]['MsgType']=='image'){
+            if(is_array($memInfo)){
                 $dirInfo = $this->chkdir();
-                foreach ($cache as $k => $v) {
+                foreach ($memInfo as $k => $v) {
                     $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
-                    $mediaContent = $mediaContent . '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+                    $mem = $mem . '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
                 }
             }
-            switch ($cache['MsgType']) {
+            switch ($memInfo['MsgType']) {
+                case 'image':
+                    break;
                 case 'location':
-                    $mediaContent = '<p></p>';
+                    $mem = '<p></p>';
                     break;
                 
                 default:
+                    $mem = '';
                     break;
             }
         }
@@ -52,10 +55,10 @@ class wx extends spController
         $length = strlen($msg['Content']);
         if($length < 100){
             $title = $msg['Content'];
-            $content = $mediaContent.$wxDesp;
+            $content = $mem.$wxDesp;
         } else {
             $title = cut_str($msg['Content'], 90, 0); ;
-            $content = $mediaContent.$msg['Content'].'<hr>'.$wxDesp;
+            $content = $mem.$msg['Content'].'<hr>'.$wxDesp;
         }
         $title = '<img src="/public/img/wx-logo.png" class="px28 r_margin">'.$title;
         $info = array(
@@ -76,14 +79,14 @@ class wx extends spController
 
     private function imageType($msg,$wx){
         //能够接收多张图片
-        $cache = spAccess('r' , $msg['FromUserName']);
-        if($cache){
-            array_push($cache, $msg);
+        $mem = spAccess('r' , $msg['FromUserName']);
+        if($mem){
+            array_push($mem, $msg);
         } else {
-            $cache[0] = $msg;
+            $mem[0] = $msg;
         }
-        spAccess('w' , $msg['FromUserName'], $cache, 3600);
-        if(count($cache)<=1){
+        spAccess('w' , $msg['FromUserName'], $mem, 3600);
+        if(count($mem)<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
     }
