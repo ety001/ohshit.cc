@@ -72,6 +72,12 @@ class wx extends spController
     }
 
     private function imageType($msg,$wx){
+        //加入读写锁保证并发上传图片
+        $tag = spAccess('r',$msg['FromUserName'].'_tag');
+        while($tag==1){
+            $tag = spAccess('r',$msg['FromUserName'].'_tag');
+        }
+        spAccess('w',$msg['FromUserName'].'_tag' , 1 , 60);
         //获取远程图片保存到本地
         $dirInfo = $this->chkdir();
         $picName = $this->getRemotePic($msg,$dirInfo['dirTime']);
@@ -85,10 +91,11 @@ class wx extends spController
             $cache['picStr'] = $picStr;
             $cache['MsgType'] = 'image';
         }
-        spAccess('w' , $msg['FromUserName'], $cache, 3600);
         if(count($cache['picStr'])<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
+        spAccess('w' , $msg['FromUserName'], $cache, 3600);
+        spAccess('w' , $msg['FromUserName'].'_tag', 0 , 60);
     }
 
     //检查并创建目录
