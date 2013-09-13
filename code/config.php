@@ -43,6 +43,10 @@ $spConfig = array(
                 'l' => array('id','p'),
                 'os' => array('p')
             )
-        )
+        ),
+        //微信扩展设置 
+        'spWeiXin' => array( 
+            'TOKEN' => $_SERVER['OHSHIT_WX'] //微信通信密钥，后台设置 
+        ) 
     )
 );
