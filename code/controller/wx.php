@@ -24,28 +24,21 @@ class wx extends spController
 	}
 
     private function textType($msg,$wx){
+        //获取缓存信息
         $memInfo = spAccess('r',$msg['FromUserName']);
         $mem = '';
+        //如果有缓存信息，则先处理缓存的信息
         if($memInfo){
             spAccess('c', $msg['FromUserName']);
+            //如果缓存信息是数组那就是图片信息
+            if(is_array($memInfo)){
+                $dirInfo = $this->chkdir();
+                foreach ($memInfo as $k => $v) {
+                    $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
+                    $mem .= '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+                }
+            }
             switch ($memInfo['MsgType']) {
-                case 'image':
-                    //检查目录并创建
-                    $dirTime = date('Y-m-d',time());
-                    $dirName = APP_PATH.'/upload/wx-upload/'.$dirTime;
-                    if(!file_exists($dirName)){
-                        mkdir($dirName);
-                    }
-                    //获取图片并保存
-                    $picFileName = md5($memInfo['PicUrl']);
-                    $picPath = './upload/wx-upload/'.$dirTime.'/';
-                    $picContent = file_get_contents($memInfo['PicUrl']);
-                    $fObj = fopen($picPath.$picFileName,'w');
-                    fwrite($fObj, $picContent);
-                    fclose($fObj);
-                    //要发布的内容
-                    $mem = '<p><img src="'.$picPath.$picFileName.'" class="img-polaroid"></p>';
-                    break;
                 case 'location':
                     $mem = '<p></p>';
                     break;
@@ -83,7 +76,40 @@ class wx extends spController
     }
 
     private function imageType($msg,$wx){
-        spAccess('w' , $msg['FromUserName'], $msg, 3600);
-        echo $wx->replyText('请在1小时内输入你要给图片的备注文字信息');
+        //能够接收多张图片
+        $mem = spAccess('r' , $msg['FromUserName']);
+        if($mem){
+            array_push($mem, $msg);
+        } else {
+            $mem[0] = $msg;
+        }
+        spAccess('w' , $msg['FromUserName'], $mem, 3600);
+        echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
+    }
+
+    //检查并创建目录
+    private function chkdir(){
+        $dirTime = date('Y-m-d',time());
+        $dirName = APP_PATH.'/upload/wx-upload/'.$dirTime;
+        if(!file_exists($dirName)){
+            mkdir($dirName);
+        }
+        $dir = array('dirTime'=>$dirTime,'dirName'=>$dirName);
+        return $dir;
+    }
+
+    //获取远程服务器图片并保存
+    private function getRemotePic($memInfo,$dirTime){
+        //图片保存在本地的名称
+        $picFileName = md5($memInfo['PicUrl']);
+        //图片保存在本地的位置
+        $picPath = './upload/wx-upload/'.$dirTime.'/';
+        //获取图片的内容
+        $picContent = file_get_contents($memInfo['PicUrl']);
+        //写入本地图片文件
+        $fObj = fopen($picPath.$picFileName,'w');
+        fwrite($fObj, $picContent);
+        fclose($fObj);
+        return $picFileName;
     }
 }
