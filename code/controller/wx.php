@@ -7,7 +7,7 @@ class wx extends spController
         if($msg){
             switch ($msg['MsgType']) {
                 case 'text':
-                    $wxDesp = '<p>这是一条来自微信端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="'.APP_PATH.'/public/img/wx.jpg" class="img-polaroid"></p>';
+                    $wxDesp = '<p>这是一条来自微信端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="/public/img/wx.jpg" class="img-polaroid"></p>';
                     $now = time();
                     $length = strlen($msg['Content']);
                     if($length < 100){
