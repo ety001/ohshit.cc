@@ -58,12 +58,12 @@ class wx extends spController
             $title = $msg['Content'];
             $content = $mediaContent.$wxDesp;
         } else {
-            $title = cut_str($msg['Content'], 90, 0); ;
+            $title = cut_str($msg['Content'], 90, 0);
             $content = $mediaContent.$msg['Content'].'<hr>'.$wxDesp;
         }
         $info = array(
             'uid'=>0,
-            'original'=>1;
+            'original'=>1,
             'title'=>strip_illegal_tags($title),
             'content'=>strip_illegal_tags($content),
             'time' => $now,
