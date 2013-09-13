@@ -47,11 +47,11 @@ class wx extends spController
                     $locationY = $cacheInfo['Location_Y'];
                     $scale = $cacheInfo['Scale'];
                     $label = $cacheInfo['Label'];
-                    $title = '我现在在 <span class="text-warning">'.$label.'</span>&nbsp;<span class="text-error">'.$msg['Content'].'</span>';
-                    $msg['Content'] = $title;
-                    $mediaContent = '<p><img src="http://maps.googleapis.com/maps/api/staticmap?center='.$locationX.','.$locationY.'&zoom=16&size=400x400&maptype=hybrid&sensor=false&markers=color:blue%7C'.$locationX.','.$locationY.'" class="img-polaroid"></p>';
+                    $labelInfo = explode(' ', $label);
+                    $locationContent = '<p>我现在在 <span class="text-warning">'.$labelInfo[0].'</span>，&nbsp;<strong><span class="text-error">'.$msg['Content'].'</span></strong></p>';
+                    $msg['Content'] = '有人在' . $labelInfo[0] . '刚更新了一条信息';
+                    $mediaContent = $locationContent . '<p><img src="http://maps.googleapis.com/maps/api/staticmap?center='.$locationX.','.$locationY.'&zoom=16&size=400x400&sensor=false&markers=color:blue%7C'.$locationX.','.$locationY.'" class="img-polaroid"></p>';
                     break;
-                
                 default:
                     break;
             }
