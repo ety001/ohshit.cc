@@ -49,3 +49,10 @@ body {
   width: 38px; /* Width of image */
   background: url("/public/img/top.png") no-repeat;
 }
+.px28{
+  width: 28px;
+  height: 28px;
+}
+.r_margin{
+  margin-right: 6px;
+}
