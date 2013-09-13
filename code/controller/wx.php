@@ -39,18 +39,16 @@ class wx extends spController
                 }
             }
             switch ($memInfo['MsgType']) {
-                case 'image':
-                    break;
                 case 'location':
                     $mem = '<p></p>';
                     break;
                 
                 default:
-                    $mem = '';
                     break;
             }
         }
-        $wxDesp = '<p>这是一条来自微信端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="/public/img/wx.jpg" class="img-polaroid"></p>';
+        //开始处理文字信息
+        $wxDesp = '<p>这是一条来自微信公共平台端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="/public/img/wx.jpg" class="img-polaroid"></p>';
         $now = time();
         $length = strlen($msg['Content']);
         if($length < 100){
@@ -69,6 +67,7 @@ class wx extends spController
             'update_time' => $now,
             'hits' => 1
             );
+        //发布文字信息
         $postsObj = spClass('libPosts');
         if($id = $postsObj->create($info)){
             echo $wx->replyText('发布成功，去看看：http://'.$_SERVER['SERVER_NAME'].spUrl('main','l',array('id'=>$id)));
