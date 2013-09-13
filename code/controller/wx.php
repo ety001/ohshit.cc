@@ -25,22 +25,17 @@ class wx extends spController
 
     private function textType($msg,$wx){
         //获取缓存信息
-        $memInfo = spAccess('r',$msg['FromUserName']);
-        $mem = '';
+        $cache = spAccess('r',$msg['FromUserName']);
+        $mediaContent = '';
         //如果有缓存信息，则先处理缓存的信息
-        if($memInfo){
+        if($cache){
             spAccess('c', $msg['FromUserName']);
-            //如果缓存信息是数组那就是图片信息
-            if(is_array($memInfo)){
-                $dirInfo = $this->chkdir();
-                foreach ($memInfo as $k => $v) {
-                    $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
-                    $mem = $mem . '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
-                }
-            }
-            switch ($memInfo['MsgType']) {
+            switch ($cache['MsgType']) {
+                case 'image':
+                    $mediaContent = implode(' ', $cache['picStr']);
+                    break;
                 case 'location':
-                    $mem = '<p></p>';
+                    $mediaContent = '<p></p>';
                     break;
                 
                 default:
@@ -53,10 +48,10 @@ class wx extends spController
         $length = strlen($msg['Content']);
         if($length < 100){
             $title = $msg['Content'];
-            $content = $mem.$wxDesp;
+            $content = $mediaContent.$wxDesp;
         } else {
             $title = cut_str($msg['Content'], 90, 0); ;
-            $content = $mem.$msg['Content'].'<hr>'.$wxDesp;
+            $content = $mediaContent.$msg['Content'].'<hr>'.$wxDesp;
         }
         $title = '<img src="/public/img/wx-logo.png" class="px28 r_margin">'.$title;
         $info = array(
@@ -77,15 +72,21 @@ class wx extends spController
     }
 
     private function imageType($msg,$wx){
-        //能够接收多张图片
-        $mem = spAccess('r' , $msg['FromUserName']);
-        if($mem){
-            array_push($mem, $msg);
+        //获取远程图片保存到本地
+        $dirInfo = $this->chkdir();
+        $picName = $this->getRemotePic($msg,$dirInfo['dirTime']);
+        $str = '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+        //获取缓存信息
+        $cache = spAccess('r' , $msg['FromUserName']);
+        if($cache){
+            array_push($cache['picStr'], $str);
         } else {
-            $mem[0] = $msg;
+            $picStr[0] = $str;
+            $cache['picStr'] = $picStr;
+            $cache['MsgType'] = 'image';
         }
-        spAccess('w' , $msg['FromUserName'], $mem, 3600);
-        if(count($mem)<=1){
+        spAccess('w' , $msg['FromUserName'], $cache, 3600);
+        if(count($cache['picStr'])<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
     }
