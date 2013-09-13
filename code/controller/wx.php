@@ -17,6 +17,7 @@ class wx extends spController
                         $title = cut_str($msg['Content'], 90, 0); ;
                         $content = $msg['Content'].'<hr>'.$wxDesp;
                     }
+                    $title = '[来自微信]'.$title;
                     $info = array(
                         'uid'=>0,
                         'title'=>strip_illegal_tags($title),
