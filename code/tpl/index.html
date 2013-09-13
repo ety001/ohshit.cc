@@ -25,8 +25,9 @@
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li <?php echo ($_GET['a']=='index'||$_GET['a']=='')?' class="active"':'';?>><a href="<?php echo spUrl('main','index');?>">首页</a></li>
-          <li <?php echo ($_GET['a']=='addPost')?' class="active"':'';?>><a href="<?php echo spUrl('main','addPost');?>" title="就是添加新帖子啦">添加新OS</a></li>
+          <?php global $__action;?>
+          <li <?php echo ($__action=='index'||$__action=='')?' class="active"':'';?>><a href="<?php echo spUrl('main','index');?>">首页</a></li>
+          <li <?php echo ($__action=='addPost')?' class="active"':'';?>><a href="<?php echo spUrl('main','addPost');?>" title="就是添加新帖子啦">添加新OS</a></li>
         </ul>
         <h3 class="muted">Anonymous Discussions</h3>
       </div>
@@ -40,7 +41,7 @@
           <div class="media alert alert-info">
             <div class="media-body">
               <h3 class="media-heading">
-                <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php echo $v['title'];?></a>
+                <a href="<?php echo spUrl('main','l',array('id'=>$v['id']));?>" target="_self"><?php if($v['original']==1){?><img src="/public/img/wx-logo.png" class="px28 r_margin"><?php }?><?php echo $v['title'];?></a>
               </h3>
               <span class="label label-success">发布于 <?php echo time_ago($v['time']);?></span>
               <span class="label label-warning">点击 <?php echo $v['hits'];?> 次</span>

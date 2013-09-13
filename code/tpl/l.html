@@ -25,8 +25,9 @@
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li <?php echo ($_GET['a']=='index'||$_GET['a']=='')?' class="active"':'';?>><a href="<?php echo spUrl('main','index');?>">首页</a></li>
-          <li <?php echo ($_GET['a']=='addPost')?' class="active"':'';?>><a href="<?php echo spUrl('main','addPost');?>" title="就是添加新帖子啦">添加新OS</a></li>
+          <?php global $__action;?>
+          <li <?php echo ($__action=='index'||$_GET['a']=='')?' class="active"':'';?>><a href="<?php echo spUrl('main','index');?>">首页</a></li>
+          <li <?php echo ($__action=='addPost')?' class="active"':'';?>><a href="<?php echo spUrl('main','addPost');?>" title="就是添加新帖子啦">添加新OS</a></li>
         </ul>
         <h3 class="muted">Anonymous Discussions</h3>
       </div>
@@ -34,7 +35,7 @@
       <hr>
 
       <div class="container">
-        <h3 class="span6"><?php echo $post['title'];?>&nbsp;&nbsp;&nbsp;<div class="text-center label label-info" style="margin:0;paddding:5px 0;">发布时间：<?php echo time_ago($post['time']);?></div></h3>
+        <h3 class="span6"><?php if($post['original']==1){?><img src="/public/img/wx-logo.png" class="px28 r_margin"><?php }?><?php echo $post['title'];?>&nbsp;&nbsp;&nbsp;<div class="text-center label label-info" style="margin:0;paddding:5px 0;">发布时间：<?php echo time_ago($post['time']);?></div></h3>
         <div class="span1 text-center label" style="padding:10px 0;"><?php echo $post['hits'];?><br />点击</div>
 
         <div class="span6"><?php echo $post['content'];?></div>

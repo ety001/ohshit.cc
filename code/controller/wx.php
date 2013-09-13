@@ -24,6 +24,7 @@ class wx extends spController
     }
 
     private function textType($msg,$wx){
+        $original = 0;
         //获取缓存信息
         $cacheInfo = spAccess('r',$msg['FromUserName']);
         $mediaContent = '';
@@ -41,6 +42,7 @@ class wx extends spController
                         $mediaContent .= '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
                     }
                     $tagUpload = 1;
+                    $original = 1;
                     break;
                 case 'location':
                     $mediaContent = '<p></p>';
@@ -61,9 +63,9 @@ class wx extends spController
             $title = cut_str($msg['Content'], 90, 0); ;
             $content = $mediaContent.$msg['Content'].'<hr>'.$wxDesp;
         }
-        $title = '<img src="/public/img/wx-logo.png" class="px28 r_margin">'.$title;
         $info = array(
             'uid'=>0,
+            'original'=>$original;
             'title'=>strip_illegal_tags($title),
             'content'=>strip_illegal_tags($content),
             'time' => $now,
@@ -81,8 +83,10 @@ class wx extends spController
         ob_flush();
         flush();
         //判断是否要处理上传图片
-        foreach ($cacheInfo['pic'] as $k => $v) {
-            $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
+        if($tagUpload){
+            foreach ($cacheInfo['pic'] as $k => $v) {
+                $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
+            }
         }
     }
 
