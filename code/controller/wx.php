@@ -30,7 +30,21 @@ class wx extends spController
             spAccess('c', $msg['FromUserName']);
             switch ($memInfo['MsgType']) {
                 case 'image':
-                    $mem = '<p><img src="'.$memInfo['PicUrl'].'" class="img-polaroid"></p>';
+                    //检查目录并创建
+                    $dirTime = date('Y-m-d',time());
+                    $dirName = APP_PATH.'/upload/wx-upload/'.$dirTime;
+                    if(!file_exists($dirName)){
+                        mkdir($dirName);
+                    }
+                    //获取图片并保存
+                    $picFileName = md5($memInfo['PicUrl']);
+                    $picPath = './upload/wx-upload/'.$dirTime.'/';
+                    $picContent = file_get_contents($memInfo['PicUrl']);
+                    $fObj = fopen($picPath.$picFileName,'w');
+                    fwrite($fObj, $picContent);
+                    fclose($fObj);
+                    //要发布的内容
+                    $mem = '<p><img src="'.$picPath.$picFileName.'" class="img-polaroid"></p>';
                     break;
                 case 'location':
                     $mem = '<p></p>';
