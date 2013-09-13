@@ -35,10 +35,12 @@ class wx extends spController
                 $dirInfo = $this->chkdir();
                 foreach ($memInfo as $k => $v) {
                     $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
-                    $mem .= '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+                    $mem = $mem . '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
                 }
             }
             switch ($memInfo['MsgType']) {
+                case 'image':
+                    break;
                 case 'location':
                     $mem = '<p></p>';
                     break;
@@ -84,7 +86,9 @@ class wx extends spController
             $mem[0] = $msg;
         }
         spAccess('w' , $msg['FromUserName'], $mem, 3600);
-        echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
+        if(count($mem)<=1){
+            echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
+        }
     }
 
     //检查并创建目录
