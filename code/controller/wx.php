@@ -32,7 +32,7 @@ class wx extends spController
             spAccess('c', $msg['FromUserName']);
             switch ($cache['MsgType']) {
                 case 'image':
-                    $mediaContent = implode(' ', $cache['picStr']);
+                    $mediaContent = implode('', $cache['picStr']);
                     break;
                 case 'location':
                     $mediaContent = '<p></p>';
@@ -75,7 +75,7 @@ class wx extends spController
         //获取远程图片保存到本地
         $dirInfo = $this->chkdir();
         $picName = $this->getRemotePic($msg,$dirInfo['dirTime']);
-        $str = '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+        $str = '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'" class="img-polaroid"></p>';
         //获取缓存信息
         $cache = spAccess('r' , $msg['FromUserName']);
         if($cache){
