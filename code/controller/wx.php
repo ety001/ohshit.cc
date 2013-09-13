@@ -70,6 +70,6 @@ class wx extends spController
 
     private function imageType($msg,$wx){
         spAccess('w' , $msg['FromUserName'], $msg, 3600);
-        $wx->replyText('请在1小时内输入你要给图片的备注文字信息');
+        echo $wx->replyText('请在1小时内输入你要给图片的备注文字信息');
     }
 }
