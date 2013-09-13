@@ -13,7 +13,7 @@ class wx extends spController
                     $this->imageType($msg,$wx);
                     break;
                 case 'location':
-                    # code...
+                    $this->locationType($msg,$wx);
                     break;
                 
                 default:
@@ -43,7 +43,13 @@ class wx extends spController
                     $tagUpload = 1;//上传标志置1
                     break;
                 case 'location':
-                    $mediaContent = '<p></p>';
+                    $locationX = $cacheInfo['Location_X'];
+                    $locationY = $cacheInfo['Location_Y'];
+                    $scale = $cacheInfo['Scale'];
+                    $label = $cacheInfo['Label'];
+                    $title = '我现在在 <span class="text-warning">'.$label.'</span>&nbsp;<span class="text-error">'.$msg['Content'].'</span>';
+                    $msg['Content'] = $title;
+                    $mediaContent = '<p><img src="http://maps.googleapis.com/maps/api/staticmap?center='.$locationX.','.$locationY.'&zoom=16&size=400x400&maptype=hybrid&sensor=false&markers=color:blue%7C'.$locationX.','.$locationY.'" class="img-polaroid"></p>';
                     break;
                 
                 default:
@@ -88,6 +94,7 @@ class wx extends spController
         }
     }
 
+    //处理图片消息
     private function imageType($msg,$wx){
         /*特别注意：把图片放到最后的发文字信息的地方，这样保证了一小时后过期的图片不会保存到本地形成垃圾文件*/
         //获取缓存信息
@@ -102,6 +109,15 @@ class wx extends spController
         if(count($cacheInfo['pic'])<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
+    }
+
+    //处理地理位置消息
+    private function locationType($msg,$wx){
+        if(spAccess('r',$msg['FromUserName'])){
+            spAccess('c',$msg['FromUserName']);
+        }
+        spAccess('w', $msg['FromUserName'], $msg , 300);
+        echo $wx->replyText('请输入你现在正在做什么【地理信息有效期5分钟】');
     }
 
     //检查并创建目录
