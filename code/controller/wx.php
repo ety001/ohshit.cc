@@ -27,10 +27,10 @@ class wx extends spController
                         'hits' => 1
                         );
                     $postsObj = spClass('libPosts');
-                    if($postsObj->create($info)){
-                        $wx->replyText('发布成功，去看看：'.spUrl('main','index'));
+                    if($id = $postsObj->create($info)){
+                        echo $wx->replyText('发布成功，去看看：http://'.$_SERVER['SERVER_NAME'].spUrl('main','l',array('id'=>$id)));
                     } else {
-                        $wx->replyText('发布失败');
+                        echo $wx->replyText('发布失败');
                     }
                     break;
                 case 'image':
