@@ -117,6 +117,14 @@ class wx extends spController
             spAccess('c',$msg['FromUserName']);
         }
         spAccess('w', $msg['FromUserName'], $msg , 300);
+        $locationObj = spClass('libLocation');
+        $info = array(
+                'wx_id' => $msg['FromUserName'],
+                'location_x' => $msg['Location_X'],
+                'location_y' => $msg['Location_Y'],
+                'time' => time()
+            )
+        $locationObj->create($info);
         echo $wx->replyText('请输入你现在正在做什么【地理信息有效期5分钟】');
     }
 
