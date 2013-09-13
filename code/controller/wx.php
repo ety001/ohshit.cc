@@ -24,7 +24,6 @@ class wx extends spController
     }
 
     private function textType($msg,$wx){
-        $original = 0;
         //获取缓存信息
         $cacheInfo = spAccess('r',$msg['FromUserName']);
         $mediaContent = '';
@@ -41,8 +40,7 @@ class wx extends spController
                         $picName = md5($v['PicUrl']);
                         $mediaContent .= '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
                     }
-                    $tagUpload = 1;
-                    $original = 1;
+                    $tagUpload = 1;//上传标志置1
                     break;
                 case 'location':
                     $mediaContent = '<p></p>';
@@ -65,7 +63,7 @@ class wx extends spController
         }
         $info = array(
             'uid'=>0,
-            'original'=>$original;
+            'original'=>1;
             'title'=>strip_illegal_tags($title),
             'content'=>strip_illegal_tags($content),
             'time' => $now,
