@@ -1,0 +1,1 @@
+ALTER TABLE  `ohshit_posts` CHANGE  `original`  `original` INT( 11 ) NOT NULL DEFAULT  '0' COMMENT  '来源(0web,1微信)';
