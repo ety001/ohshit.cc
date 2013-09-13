@@ -27,12 +27,20 @@ class wx extends spController
         //获取缓存信息
         $cacheInfo = spAccess('r',$msg['FromUserName']);
         $mediaContent = '';
+        $tagUpload = 0;
         //如果有缓存信息，则先处理缓存的信息
         if($cacheInfo){
             spAccess('c', $msg['FromUserName']);
             switch ($cacheInfo['MsgType']) {
                 case 'image':
-                    $mediaContent = implode('', $cacheInfo['picStr']);
+                    $dirInfo = $this->chkdir();
+                    //因为图片上传需要时间，此处只生成帖子内容中的图片链接，图片上传将在echo后进行
+                    foreach ($cacheInfo['pic'] as $k => $v) {
+                        //$picName = $this->getRemotePic($v,$dirInfo['dirTime']);
+                        $picName = md5($v['PicUrl']);
+                        $mediaContent .= '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
+                    }
+                    $tagUpload = 1;
                     break;
                 case 'location':
                     $mediaContent = '<p></p>';
@@ -69,21 +77,24 @@ class wx extends spController
         } else {
             echo $wx->replyText('发布失败');
         }
+        //刷缓存，让微信先回复用户信息
+        ob_flush();
+        flush();
+        //判断是否要处理上传图片
+        foreach ($cacheInfo['pic'] as $k => $v) {
+            $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
+        }
     }
 
     private function imageType($msg,$wx){
-        //获取远程图片保存到本地
-        $dirInfo = $this->chkdir();
-        $picName = $this->getRemotePic($msg,$dirInfo['dirTime']);
-        $str = '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'" class="img-polaroid"></p>';
+        /*特别注意：把图片放到最后的发文字信息的地方，这样保证了一小时后过期的图片不会保存到本地形成垃圾文件*/
         //获取缓存信息
         $cacheInfo = spAccess('r' , $msg['FromUserName']);
         if($cacheInfo){
-            array_push($cacheInfo['picStr'], $str);
+            array_push($cacheInfo['pic'], $msg);
         } else {
-            $picStr[0] = $str;
-            $cacheInfo['picStr'] = $picStr;
             $cacheInfo['MsgType'] = 'image';
+            $cacheInfo['pic'][0] = $msg;
         }
         spAccess('w' , $msg['FromUserName'], $cacheInfo, 3600);
         if(count($cacheInfo['picStr'])<=1){
