@@ -25,40 +25,33 @@ class wx extends spController
 
     private function textType($msg,$wx){
         //获取缓存信息
-        $memInfo = spAccess('r',$msg['FromUserName']);
-        $mem = '';
+        $cacheInfo = spAccess('r',$msg['FromUserName']);
+        $mediaContent = '';
         //如果有缓存信息，则先处理缓存的信息
-        if($memInfo){
+        if($cacheInfo){
             spAccess('c', $msg['FromUserName']);
-            //如果缓存信息是数组那就是图片信息
-            if(is_array($memInfo)){
-                $dirInfo = $this->chkdir();
-                foreach ($memInfo as $k => $v) {
-                    $picName = $this->getRemotePic($v,$dirInfo['dirTime']);
-                    $mem = $mem . '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'"></p>';
-                }
-            }
-            switch ($memInfo['MsgType']) {
+            switch ($cacheInfo['MsgType']) {
                 case 'image':
+                    $mediaContent = implode('', $cacheInfo['picStr']);
                     break;
                 case 'location':
-                    $mem = '<p></p>';
+                    $mediaContent = '<p></p>';
                     break;
                 
                 default:
-                    $mem = '';
                     break;
             }
         }
-        $wxDesp = '<p>这是一条来自微信端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="/public/img/wx.jpg" class="img-polaroid"></p>';
+        //开始处理文字信息
+        $wxDesp = '<p>这是一条来自微信公共平台端的消息，如果你也想发送，请微信搜索添加 dmrobot ，或者扫描用微信下面的二维码</p><p><img src="/public/img/wx.jpg" class="img-polaroid"></p>';
         $now = time();
         $length = strlen($msg['Content']);
         if($length < 100){
             $title = $msg['Content'];
-            $content = $mem.$wxDesp;
+            $content = $mediaContent.$wxDesp;
         } else {
             $title = cut_str($msg['Content'], 90, 0); ;
-            $content = $mem.$msg['Content'].'<hr>'.$wxDesp;
+            $content = $mediaContent.$msg['Content'].'<hr>'.$wxDesp;
         }
         $title = '<img src="/public/img/wx-logo.png" class="px28 r_margin">'.$title;
         $info = array(
@@ -69,6 +62,7 @@ class wx extends spController
             'update_time' => $now,
             'hits' => 1
             );
+        //发布文字信息
         $postsObj = spClass('libPosts');
         if($id = $postsObj->create($info)){
             echo $wx->replyText('发布成功，去看看：http://'.$_SERVER['SERVER_NAME'].spUrl('main','l',array('id'=>$id)));
@@ -78,15 +72,21 @@ class wx extends spController
     }
 
     private function imageType($msg,$wx){
-        //能够接收多张图片
-        $mem = spAccess('r' , $msg['FromUserName']);
-        if($mem){
-            array_push($mem, $msg);
+        //获取远程图片保存到本地
+        $dirInfo = $this->chkdir();
+        $picName = $this->getRemotePic($msg,$dirInfo['dirTime']);
+        $str = '<p><img src="/upload/wx-upload/'.$dirInfo['dirTime'].'/'.$picName.'" class="img-polaroid"></p>';
+        //获取缓存信息
+        $cacheInfo = spAccess('r' , $msg['FromUserName']);
+        if($cacheInfo){
+            array_push($cacheInfo['picStr'], $str);
         } else {
-            $mem[0] = $msg;
+            $picStr[0] = $str;
+            $cacheInfo['picStr'] = $picStr;
+            $cacheInfo['MsgType'] = 'image';
         }
-        spAccess('w' , $msg['FromUserName'], $mem, 3600);
-        if(count($mem)<=1){
+        spAccess('w' , $msg['FromUserName'], $cacheInfo, 3600);
+        if(count($cacheInfo['picStr'])<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
     }
