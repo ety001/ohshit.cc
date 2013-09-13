@@ -35,8 +35,7 @@ $spConfig = array(
                 'savePost' => 'main@savePost',
                 'addPost' => 'main@addPost',
                 'saveComment' => 'main@saveComment',
-                'os' => 'main@index',
-                '@' => 'main@index'         
+                'os' => 'main@index'        
             ),
             'args' => array(
                 'l' => array('id','p'),
