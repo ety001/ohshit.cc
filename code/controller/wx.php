@@ -97,7 +97,7 @@ class wx extends spController
             $cacheInfo['pic'][0] = $msg;
         }
         spAccess('w' , $msg['FromUserName'], $cacheInfo, 3600);
-        if(count($cacheInfo['picStr'])<=1){
+        if(count($cacheInfo['pic'])<=1){
             echo $wx->replyText('请输入图片的备注文字信息【有效期1小时】');
         }
     }
