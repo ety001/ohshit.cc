@@ -41,4 +41,12 @@ class libPosts extends spModel
             return false;
         }
     }
+    
+    public function rmdata($postID=''){
+        if(!$postID)return;
+        $conditions['id'] = $postID;
+        $conditions_comment['post_id'] = $postID;
+        $this->delete($conditions);
+        spClass('libComments')->delete($conditions_comment);
+    } 
 }
